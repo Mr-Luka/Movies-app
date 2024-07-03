@@ -80,3 +80,9 @@ function displayMovieDetails(details) {
         </div>`;
     
 }
+
+window.addEventListener("click", e => {
+    if(e.target.className != "form-control"){
+        searchList.classList.add("hide-search-list");
+    }
+})
