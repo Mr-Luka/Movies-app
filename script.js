@@ -12,17 +12,17 @@ async function loadMovies(searchTerm) {
 loadMovies("lord of the rings");
 
 
-function findMovies() {
+function findMovies(){
     let searchTerm = (movieSearchBox.value).trim();
-    if(searchTerm.length > 0) {
-        searchList.classList.remove("hide-search-list");
+    if(searchTerm.length > 0){
+        searchList.classList.remove('hide-search-list');
         loadMovies(searchTerm);
     } else {
-        searchList.classList.add("hide-search-list");
+        searchList.classList.add('hide-search-list');
     }
 }
 
-function displayMovieList(movies) {
+function displayMovieList(movies){
     searchList.innerHTML = "";
     for(let idx = 0; idx < movies.length; idx++){
         let movieListItem = document.createElement('div');
@@ -32,7 +32,8 @@ function displayMovieList(movies) {
             moviePoster = movies[idx].Poster;
         else 
             moviePoster = "image_not_found.png";
-            movieListItem.innerHTML = `
+
+        movieListItem.innerHTML = `
         <div class = "search-item-thumbnail">
             <img src = "${moviePoster}">
         </div>
@@ -43,4 +44,18 @@ function displayMovieList(movies) {
         `;
         searchList.appendChild(movieListItem);
     }
+    loadMovieDetails();
+}
+
+function loadMovieDetails() {
+    const searchListMovies = searchList.querySelectorAll(".search-list-item");
+    searchListMovies.forEach(movie=> {
+        movie.addEventListener("click", async()=> {
+            searchList.classList.add("hide-search-list");
+            movieSearchBox.value = "";
+            const result = await fetch(`https://www.omdbapi.com/?i=${movie.dataset.id}&apikey=ac7d252c`);
+            const movieDetails = await result.json();
+            displayMovieDetails(movieDetails);
+        })
+    })
 }
