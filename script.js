@@ -9,4 +9,19 @@ async function loadMovies(searchTerm) {
     const data = await res.json();
     if(data.Response === "True") displayMovieList(data.Search);
 }
-loadMovies("lord of the rings")
+loadMovies("lord of the rings");
+
+
+function findMovies() {
+    let searchTerm = (movieSearchBox.value).trim();
+    if(searchTerm.length > 0) {
+        searchList.classList.remove("hide-search-list");
+        loadMovies(searchTerm);
+    } else {
+        searchList.classList.add("hide-search-list");
+    }
+}
+
+function displayMovieList(movies) {
+
+}
